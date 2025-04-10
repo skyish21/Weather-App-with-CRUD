@@ -3,6 +3,10 @@ import streamlit as st
 import requests
 import sqlite3
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+
+load_dotenv()  # Load environment variables from .env
 
 # DB setup
 def init_db():
@@ -61,7 +65,7 @@ def display_emoji(weather_id):
 # Streamlit UI
 st.title("☁️ Weather App")
 city = st.text_input("Enter city name:")
-api_key = "fc3bbedbd909c2a806d87c2433a6eb21"  # Replace with your key
+api_key = os.getenv("API_KEY")  # Securely get your API key
 
 if st.button("Get Weather"):
     if city:
@@ -74,7 +78,7 @@ if st.button("Get Weather"):
 
             st.metric(label="Temperature (°C)", value=f"{temp_c:.2f}")
             st.write("**Description:**", desc)
-            st.write(emoji)
+            st.write("**Emoji:**", emoji)
             save_to_db(city, round(temp_c, 2), desc)
         except requests.exceptions.HTTPError as e:
             st.error(f"Error: {e}")
