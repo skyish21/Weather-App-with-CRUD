@@ -74,7 +74,7 @@ if st.button("Get Weather"):
 
             st.metric(label="Temperature (°C)", value=f"{temp_c:.2f}")
             st.write("**Description:**", desc)
-            st.write("**Emoji:**", emoji)
+            st.write(emoji)
             save_to_db(city, round(temp_c, 2), desc)
         except requests.exceptions.HTTPError as e:
             st.error(f"Error: {e}")
